@@ -90,7 +90,7 @@ unsigned long cur_time;
 
 #include <Wire.h>
 
-#define width 1         // in number of panels
+#define width 3         // in number of panels
 #define height 2        // in number of panels
 #define panelwidth  32  // in dots
 #define panelheight 16  // in dots
@@ -110,42 +110,7 @@ unsigned long cur_time;
 boolean current_state[COLS][ROWS];
 boolean next_state[COLS][ROWS];
 
-const boolean OTA2_picture[32][32] = {
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-};
-
-
+//max size as defined in showotapicture
 const boolean OTA_picture[32][32] = {
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -180,10 +145,6 @@ const boolean OTA_picture[32][32] = {
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
-
-
-
-
 
 #ifdef SNAKE
 //SNAKE//
@@ -283,91 +244,16 @@ void flipdot(uint16_t x, uint16_t y, bool color) {
 
   delayMicroseconds(100);
 }
-
-void fullpppupdate() {
-  for (uint8_t x = 0; x < 32; x++) {
-    for (uint8_t y = 0; y < 32; y++) {
-      if (current_state[y][x] != next_state[y][x]) {
+void fullupdate() {
+  for (uint8_t x = 0; x < COLS; x++) {
+    for (uint8_t y = 0; y < ROWS; y++) {
+      if (current_state[x][y] != next_state[x][y]) {
         flipdot(x, y, next_state[x][y]);
       }
     }
   }
   memcpy(current_state, next_state, sizeof(next_state));
-
 }
-
-void fullupdate() {
-#ifdef DEBUG
-  unsigned long starttijd = millis();
-#endif
-
-  // current_state[COLS][ROWS];
-  // next_state[COLS][ROWS];
-  // Only works on two panels stacked on top of each other!
-
-  for (uint8_t x = 0; x < 32; x++) {
-    for (uint8_t y = 0; y < 16; y++) {
-
-      if ((current_state[x][y] != next_state[x][y]) || (current_state[x][y + 16] != next_state[x][y + 16])) {
-
-        // Determine which drivers we want to speak to
-        byte columndriveraddress = 0x40 + (x / 8);
-        byte rowdriveraddress    = 0x60 + (y / 8);
-        byte column2driveraddress = 0x44 + (x / 8);
-        byte row2driveraddress    = 0x62 + (y / 8);
-
-        byte column = x % 8;
-
-        byte columnregisteroffset = (next_state[x][y]) ? 0x07 : 0x27;
-        byte column2registeroffset = (next_state[x][y + 16]) ? 0x07 : 0x27;
-
-        byte columnregister = 4 * column + columnregisteroffset;
-        byte column2register = 4 * column + column2registeroffset;
-
-        byte row = y % 8;
-        byte rowregisteroffset = (next_state[x][y]) ? 0x27 : 0x07;
-        byte row2registeroffset = (next_state[x][y + 16]) ? 0x27 : 0x07;
-
-        byte rowregister =  4 * row + rowregisteroffset;
-        byte row2register =  4 * row + row2registeroffset;
-
-        // Now we will flip some bits!
-        // Powerup!
-        i2cwrite(rowdriveraddress,    rowregister          , 0x10);
-        i2cwrite(row2driveraddress,    row2register          , 0x10);
-
-        delayMicroseconds(1);
-
-        i2cwrite(columndriveraddress, columnregister       , 0x10);
-        i2cwrite(column2driveraddress, column2register       , 0x10);
-
-        delayMicroseconds(1);
-
-        // And powerdown!
-        i2cwrite(rowdriveraddress,    rowregister          , 0x00);
-        i2cwrite(row2driveraddress,    row2register          , 0x00);
-
-        delayMicroseconds(1);
-
-        i2cwrite(columndriveraddress, columnregister       , 0x00);
-        i2cwrite(column2driveraddress, column2register       , 0x00);
-
-        delayMicroseconds(1);
-      }
-    }
-  }
-#ifdef DEBUG
-  unsigned long eindtijd = millis();
-  Serial.println(eindtijd - starttijd);
-#endif
-  memcpy(current_state, next_state, sizeof(next_state));
-}
-
-
-
-
-
-
 
 void i2cwrite(byte address, byte reg, byte content) {
 #ifdef DEBUG
@@ -393,8 +279,6 @@ void i2cwrite(byte address, byte reg, byte content) {
   Wire.endTransmission();
 }
 
-
-
 void resetPCA9685() {
   for (uint8_t x = 0x40; x < 0x6F; x++) {
     i2cwrite(x, 0x00, 0x80); // ???
@@ -405,9 +289,6 @@ void resetPCA9685() {
     i2cwrite(x, 0x00, 0b00000001); // Awake and responds to 'all call'
     everythingoff(x);
   }
-
-
-
 }
 
 void everythingoff(uint8_t address) {
@@ -580,7 +461,8 @@ void showotapicture() {
 void setup() {
 
 
-  Wire.begin();
+//  Wire.begin();
+  Wire.begin(21,22);
   Wire.setClock(1000000); // ESP32
 
   Serial.begin(115200);
@@ -612,6 +494,8 @@ void setup() {
   resetPCA9685();
   YellowScreen();
   ClearScreen();
+// what is flipdemo?
+  //flipdemo();
 
 #ifdef SNAKE
   snakesetup();
